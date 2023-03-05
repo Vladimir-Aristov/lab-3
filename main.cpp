@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <set>
+#include <exception>
 using namespace std;
 
 template<typename Vertex, typename Weight>
@@ -111,6 +112,81 @@ public:
             other.vertices.clear();
         }
         return *this;
+    }
+
+    //is empty
+    bool empty() {
+        return vertices.empty();
+    }
+
+    // size
+    size_t size() {
+        return vertices.size();
+    }
+
+    // clear
+    void clear() {
+        adjList.clear();
+        vertices.clear();
+    }
+
+    // swap
+    void swap(Graph<Vertex, Weight>& other) {
+        Graph<Vertex, Weight> temp = *this;
+        *this = other;
+        other = temp;
+    }
+
+    // begin
+    auto begin() {
+        return vertices.begin();
+    }
+
+    // end
+    auto end() {
+        return vertices.end();
+    }
+
+    // cbegin
+    auto cbegin() const {
+        return vertices.cbegin();
+    }
+
+    // cend
+    auto cend() const {
+        return vertices.cend();
+    }
+
+    // degree_in
+    size_t degree_in(Vertex key) {
+        size_t count = 0;
+        try {
+            if (adjList.find(key) != adjList.end()) {
+                count = adjList[key].size();
+            } else {
+                invalid_argument error("vertex hasn't been found");
+                throw error;
+            }
+        } catch (invalid_argument& err) {
+            cout << err.what() << "\n";
+        }
+        return count;
+    }
+
+    // degree_out
+    size_t degree_out(Vertex key) {
+        size_t count = 0;
+        try {
+            if (adjList.find(key) != adjList.end()) {
+                count = adjList[key].size();
+            } else {
+                invalid_argument error("vertex hasn't been found");
+                throw error;
+            }
+        } catch (invalid_argument& err) {
+            cout << err.what() << "\n";
+        }
+        return count;
     }
 };
 
